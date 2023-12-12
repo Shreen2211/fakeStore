@@ -18,7 +18,6 @@ class FakeStoreCubit extends Cubit<FakeStoreState> {
 
   List<String> gategory=[];
   List<product> products=[];
-  List<product> SingleProducts=[];
 
   Future<void> post() async {
     emit(loadingLogingState());
@@ -26,16 +25,14 @@ class FakeStoreCubit extends Cubit<FakeStoreState> {
       endPoint: EndPoint.login,
       token: token.Token,
       body: {
-        'username': 'mor_2314',
-        'password': '83r5^_'
+        'username': EmailController?.text,
+        'password': PasswordController?.text,
       },
     ).then((value) {
       print(value.data);
-      print('اشطر كتكوته');
       emit(SucessLogingState());
     }).catchError((error) {
       print(error.toString());
-      print('every thing kharaaa');
       emit(ErrorLogingState());
       throw error;
     });
@@ -51,12 +48,10 @@ class FakeStoreCubit extends Cubit<FakeStoreState> {
       if(value.data!=null){
         gategory=value.data.cast<String>();
       }
-      print('اشطر كتكوته2');
       print(gategory);
       emit(SucessGetState());
     }).catchError((error) {
       print(error);
-      print('every thing kharaaa yl3nk');
       emit(ErrorGetState());
       throw error;
     });
@@ -74,34 +69,12 @@ class FakeStoreCubit extends Cubit<FakeStoreState> {
         products.add(pro);
       }
       print(products);
-      print('اشطر كتكوته2');
       emit(SucessProductState());
     }).catchError((error) {
       print(error);
-      print('every thing kharaaa yl3n meteen 4akly');
       emit(ErrorProductState());
       throw error;
     });
   }
 
-  Future<void> getSingleProduct() async{
-    emit(loadingSingleProductState());
-    DioHealper.get(
-      endPoint: '${EndPoint.End_Point}/',
-    ).then((value) {
-      SingleProducts.clear();
-      for(var item in value.data){
-        product pro=product.fromJson(item);
-        SingleProducts.add(pro);
-      }
-      print(SingleProducts);
-      print('اشطر كتكوته2');
-      emit(SucessSingleProductState());
-    }).catchError((error) {
-      print(error);
-      print('every thing kharaaa yl3n meteen 4akly');
-      emit(ErrorSingleProductState());
-      throw error;
-    });
-  }
 }
